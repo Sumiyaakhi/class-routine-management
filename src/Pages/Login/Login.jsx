@@ -1,34 +1,52 @@
-import React, { useContext } from "react";
+import React, { useContext,  useRef, useState } from "react";
 import Lottie from "lottie-react";
 import loginAnimation from "../../../public/animation_lkpehwcx.json";
 import backgroundImageUrl from '../../assets/Images/login-bg.jpg'
-import { Link, Navigate } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../Providers/AuthProviders";
 import Swal from "sweetalert2";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Login = () => {
+  const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
-  const {user, signIn} = useContext(AuthContext)
+  const emailRef = useRef()
+  const {user,resetPassword, signIn} = useContext(AuthContext)
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
     console.log(data);
-    signIn(data.email, data.password).then((result) => {
+    console.log(emailRef.current.value);
+    signIn(emailRef.current.value, data.password)
+    .then((result) => {
       const user = result.user;
-      console.log("logged in user",user);
       Swal.fire({
         icon: "success",
         title: "Login Successful",
       });
-      Navigate(from, { replace: true });
-    });
+      reset();
+      navigate(from, { replace: true });
+    })
+    .catch((error)=>{
+      console.log(error.message);
+    })
+    
+   
   };
-  return (
+  const handleResetPassword = () =>{
+    const emailForReset = emailRef.current.value
+    resetPassword(emailForReset)
+    .then(()=>{
+      alert('Please check your Email...')
+    })
+}
+
+return (
     <div>
       <div
        style={{
@@ -42,6 +60,7 @@ const Login = () => {
            <Lottie animationData={loginAnimation} loop={true} />
           </div>
           <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+          <h1 className="text-4xl font-serif font-bold text-primary text-center pt-6 ">Login</h1>
           <form onSubmit={handleSubmit(onSubmit)} className="card-body">
         <div className="form-control">
           <label className="label">
@@ -49,9 +68,10 @@ const Login = () => {
           </label>
           <input
                   type="text"
-                  {...register("email", { required: true })}
+                  // {...register("email", { required: true })}
                   placeholder="email"
                   className="input input-bordered "
+                  ref={emailRef}
                 />
                 {errors.email?.type === "required" && (
                   <p role="alert">email is required</p>
@@ -68,12 +88,12 @@ const Login = () => {
                   className="input input-bordered "
                 />
                
-                
+               {errors.password?.type === "required" && (
+                  <p role="alert">password is required</p>
+                )}
 
-                <label className="label">
-                  <a href="#" className="label-text-alt link link-hover">
-                    Forgot password?
-                  </a>
+               <label className="label">
+                 <button onClick={handleResetPassword} className="underline text-primary"> <Link>Forgot password? Click to Reset</Link></button>
                 </label>
         </div>
         <div className="form-control mt-6">

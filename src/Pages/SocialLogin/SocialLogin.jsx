@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Providers/AuthProviders';
 import {  FaGoogle } from 'react-icons/fa';
+import Swal from 'sweetalert2';
 
 const SocialLogin = () => {
     const {googleSignIn, facebookSignIn} = useContext(AuthContext);
@@ -16,7 +17,26 @@ const SocialLogin = () => {
             const loggedUser =  result.user;
             console.log("user data", loggedUser);
             const savedUser = { name: loggedUser.displayName, email: loggedUser.email, image: loggedUser.photoURL, role:"user"}
+            fetch('http://localhost:5000/users',{
+                method: "POST",
+                headers:{
+                  'content-type': "application/json"
+                },
+                body: JSON.stringify(savedUser)
+              })
+              .then(res =>res.json())
+              .then(data => {
+                if(data.insertedId){
+                  Swal.fire({
+                    icon: "success",
+                    title: "Login Successful",
+                  });
+                  navigate(from, { replace: true });
+                }
+              })
+           
         })
+       
     }
         
     

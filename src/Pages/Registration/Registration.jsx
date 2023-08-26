@@ -3,7 +3,7 @@ import Lottie from "lottie-react";
 import loginAnimation from "../../../public/animation_lkpehwcx.json";
 import backgroundImageUrl from '../../assets/Images/login-bg.jpg'
 import SocialLogin from '../SocialLogin/SocialLogin';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../Providers/AuthProviders";
@@ -11,11 +11,10 @@ import { AuthContext } from "../Providers/AuthProviders";
 const Registration = () => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
     const navigate = useNavigate();
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const {createUser, updateUserProfile} = useContext(AuthContext);
+    const {createUser, updateUserProfile, resetPassword} = useContext(AuthContext);
+    const from = location.state?.from?.pathname || "/";
 
     const onSubmit = data =>{
-        console.log(data.password, data.confirmPassword);
         if(data.password !== data.confirmPassword){
             Swal.fire({
                 icon: 'error',
@@ -25,17 +24,39 @@ const Registration = () => {
             return;
         }
 
-        console.log(data);
         createUser(data.email, data.password)
         .then(result =>{
             const loggedUser = result.user;
             console.log(loggedUser);
             updateUserProfile(data.name, data.photoURL)
             .then(()=> {
-                const savedUser = { name: data.name, email: data.email, image: data.photoURL, role:"user"}
+              const savedUser = { name: data.name, email: data.email, image: data.photoURL, role:"user"}
+              fetch('http://localhost:5000/users',{
+                method: "POST",
+                headers:{
+                  'content-type': "application/json"
+                },
+                body: JSON.stringify(savedUser)
+              })
+              .then(res =>res.json())
+              .then(data => {
+                if(data.insertedId){
+                  reset();
+                  Swal.fire({
+                    icon: "success",
+                    title: "Registration Successful",
+                  });
+                  navigate(from, { replace: true });
+                }
+              })
+                
             })
         })
-    }
+        
+        }
+        
+
+    
     return (
         <div className="">
         <div
@@ -47,7 +68,10 @@ const Registration = () => {
         className="hero min-h-screen pt-12">
           <div className="hero-content flex-col lg:flex-row-reverse">
            
+        
+
             <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+            <h1 className="text-3xl font-serif font-bold text-primary text-center pt-4">Registration</h1>
             <form onSubmit={handleSubmit(onSubmit)} className="card-body">
               <div className="form-control">
                
@@ -76,9 +100,7 @@ const Registration = () => {
                 {errors.password?.type === 'required' && <p className='text-red-400' role="alert">password is required</p>}
                 {errors.password?.type === 'minLength' && <p className='text-red-400' role="alert">Password must be 6 characters</p>}
                 {errors.password?.type === 'pattern' && <p className='text-red-400' role="alert">Password must have one uppercase, one lowercase, one number and one special character</p>}
-                <label className="label">
-                  <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-                </label>
+                
               </div>
               <div className='form-control'>
             <input  type="password" {...register("confirmPassword", { required: true })}
