@@ -12,6 +12,7 @@ const Registration = () => {
     const {register, handleSubmit, reset, formState: {errors}} = useForm();
     const navigate = useNavigate();
     const {createUser, updateUserProfile, resetPassword} = useContext(AuthContext);
+    const [error, setError] = useState("")
     const from = location.state?.from?.pathname || "/";
 
     const onSubmit = data =>{
@@ -31,7 +32,7 @@ const Registration = () => {
             updateUserProfile(data.name, data.photoURL)
             .then(()=> {
               const savedUser = { name: data.name, email: data.email, image: data.photoURL, role:"user"}
-              fetch('http://localhost:5000/users',{
+              fetch('https://class-routine-management-server.vercel.app/users',{
                 method: "POST",
                 headers:{
                   'content-type': "application/json"
@@ -48,6 +49,10 @@ const Registration = () => {
                   });
                   navigate(from, { replace: true });
                 }
+              })
+              .catch((error)=>{
+                setError(error)
+                console.log("message for error",error.message);
               })
                 
             })
@@ -110,6 +115,7 @@ const Registration = () => {
                 
                 <input  className="btn text-white bg-primary border-0" type="submit" value="Sign Up" />
               </div>
+              <p className="text-red-600">{error}</p>
             </form>
             <p className='mx-auto mb-3 underline text-primary'><Link to='/login'>Already have an account?</Link></p>
         <SocialLogin></SocialLogin>

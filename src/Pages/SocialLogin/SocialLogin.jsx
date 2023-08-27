@@ -5,11 +5,11 @@ import {  FaGoogle } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 
 const SocialLogin = () => {
-    const {googleSignIn, facebookSignIn} = useContext(AuthContext);
+    const {googleSignIn} = useContext(AuthContext);
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?. from?.pathname || "/" ;
+    const from = location.state?.from?.pathname || "/" ;
 
     const handleGoogleSignIn = () =>{
         googleSignIn()
@@ -17,7 +17,7 @@ const SocialLogin = () => {
             const loggedUser =  result.user;
             console.log("user data", loggedUser);
             const savedUser = { name: loggedUser.displayName, email: loggedUser.email, image: loggedUser.photoURL, role:"user"}
-            fetch('http://localhost:5000/users',{
+            fetch('https://class-routine-management-server.vercel.app/users',{
                 method: "POST",
                 headers:{
                   'content-type': "application/json"
@@ -26,13 +26,14 @@ const SocialLogin = () => {
               })
               .then(res =>res.json())
               .then(data => {
-                if(data.insertedId){
+                console.log(data);
+               
                   Swal.fire({
                     icon: "success",
                     title: "Login Successful",
                   });
                   navigate(from, { replace: true });
-                }
+               
               })
            
         })

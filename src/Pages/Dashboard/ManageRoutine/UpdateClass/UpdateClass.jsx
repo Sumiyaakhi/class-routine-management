@@ -13,20 +13,6 @@ const {
     handleUpdate({
         id:_id,
         ...data
-        // day:day,
-    //     firstClass:firstClass,
-    //     firstTeacher:firstTeacher,
-    //     secondClass:secondClass,
-    //   secondTeacher:secondTeacher,
-    //     thirdClass:thirdClass,
-    //     thirdTeacher:thirdTeacher,
-    //     fourthClass:fourthClass,
-    //   fourthTeacher:fourthTeacher,
-    //     fifthClass:fifthClass,
-    //     fifthTeacher:fifthTeacher,
-    //     sixthClass:sixthClass,
-    //   sixthTeacher:sixthTeacher
-        
       })
    
     
@@ -39,8 +25,6 @@ const {
       <label htmlFor={`my-modal-${_id}`} className="btn bg-primary text-white">
       Update
       </label>
-
-      {/* Put this part before </body> tag */}
       <input type="checkbox" id={`my-modal-${_id}`} className="modal-toggle" />
       <div className="modal">
         <div className="modal-box w-11/12 max-w-5xl">

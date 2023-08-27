@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
+import Swal from 'sweetalert2';
 
 
 const AddClass = () => {
@@ -11,7 +12,7 @@ const AddClass = () => {
       } = useForm();
       const onSubmit = (data) => {
     
-        fetch("http://localhost:5000/addAClass", {
+        fetch("https://class-routine-management-server.vercel.app/addAClass", {
           method: "POST",
           headers: {
             "content-type": "application/json",
@@ -25,7 +26,10 @@ const AddClass = () => {
           reset()
       };
       const handleAlert = () => {
-        alert('Class Added successfully');
+        Swal.fire({
+          icon: "success",
+          title: "Class added Successfully",
+        });
         
       }
     return (

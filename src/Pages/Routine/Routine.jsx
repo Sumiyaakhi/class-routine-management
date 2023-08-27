@@ -13,7 +13,7 @@ const Routine = () => {
   <span className="loading loading-ring loading-lg"></span></div>
    }
    useEffect(()=>{
-    fetch('http://localhost:5000/getClass')
+    fetch('https://class-routine-management-server.vercel.app/getClass')
     .then(res => res.json())
     .then(data=> {
         setAddClass(data);

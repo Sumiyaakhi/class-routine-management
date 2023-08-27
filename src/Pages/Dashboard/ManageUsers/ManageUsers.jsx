@@ -17,7 +17,7 @@ const ManageUsers = () => {
  }
   useEffect(() => {
     setLoading(true)
-    fetch("http://localhost:5000/users")
+    fetch("https://class-routine-management-server.vercel.app/users")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -27,7 +27,7 @@ const ManageUsers = () => {
   }, [control]);
 
   const handleMakeAdmin = users =>{
-fetch(`http://localhost:5000/users/admin/${users._id}`,{
+fetch(`https://class-routine-management-server.vercel.app/users/admin/${users._id}`,{
   method: "PATCH",
 })
 .then(res=> res.json())
@@ -53,7 +53,7 @@ fetch(`http://localhost:5000/users/admin/${users._id}`,{
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/users/${id}`,{
+        fetch(`https://class-routine-management-server.vercel.app/users/${id}`,{
           method: "DELETE",
         })
         .then(res => res.json())
@@ -77,7 +77,7 @@ fetch(`http://localhost:5000/users/admin/${users._id}`,{
   return (
     <div>
       <div className="text-primary text-3xl font-serif font-bold text-center mb-5">
-        <h1>Total Users : { users.length}</h1>
+        <h1>Total Logged in : { users.length} person</h1>
       </div>
       <div className="overflow-x-auto">
         <table className="table">

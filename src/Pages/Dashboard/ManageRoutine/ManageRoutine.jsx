@@ -19,7 +19,7 @@ const ManageRoutine = () => {
   };
 
   useEffect(()=>{
-    fetch('http://localhost:5000/getClass')
+    fetch('https://class-routine-management-server.vercel.app/getClass')
     .then(res => res.json())
     .then(data=> {
         setAddClass(data);
@@ -37,7 +37,7 @@ const ManageRoutine = () => {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/addAClass/${id}`,{
+        fetch(`https://class-routine-management-server.vercel.app/addAClass/${id}`,{
           method: "DELETE",
         })
         .then(res => res.json())
@@ -59,7 +59,7 @@ const ManageRoutine = () => {
   }
 
   const handleUpdate = (data) => {
-    fetch(`http://localhost:5000/updateClass/${data.id}`,{
+    fetch(`https://class-routine-management-server.vercel.app/updateClass/${data.id}`,{
       method: "PUT",
       headers: {"content-type": "application/json"},
       body: JSON.stringify(data),
@@ -68,7 +68,10 @@ const ManageRoutine = () => {
   .then(data => {
     console.log(data);
     if(data.modifiedCount > 0){
-      alert('Updated successfully please reload the browser to see the updates');
+      Swal.fire({
+        icon: "success",
+        title: "Class update successful",
+      });
       setControl(!control);
     }
     })

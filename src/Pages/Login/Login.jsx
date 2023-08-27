@@ -12,6 +12,7 @@ const Login = () => {
   const navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
   const emailRef = useRef()
+  const [error, SetError] = useState("")
   const {user,resetPassword, signIn} = useContext(AuthContext)
   const {
     register,
@@ -33,7 +34,8 @@ const Login = () => {
       navigate(from, { replace: true });
     })
     .catch((error)=>{
-      console.log(error.message);
+      SetError(error)
+      console.log("message for error",error.message);
     })
     
    
@@ -96,6 +98,7 @@ return (
                  <button onClick={handleResetPassword} className="underline text-primary"> <Link>Forgot password? Click to Reset</Link></button>
                 </label>
         </div>
+        <p className="text-red-500">{error.message}</p>
         <div className="form-control mt-6">
         <input
                   className="btn bg-primary text-white "
