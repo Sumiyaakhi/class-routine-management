@@ -82,7 +82,7 @@ const Dashboard = () => {
                 </li>
                 <li>
                   <NavLink to="/dashboard/onlyUser">
-                    <FaUserAlt></FaUserAlt> Make admin
+                    <FaUserAlt></FaUserAlt> Check role
                   </NavLink>
                 </li>
                 <button

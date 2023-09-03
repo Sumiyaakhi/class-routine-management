@@ -63,7 +63,7 @@ fetch(`https://class-routine-management-server.vercel.app/users/admin/${users._i
         setControl(!control)
         Swal.fire(
           'Deleted!',
-          'Your file has been deleted.',
+          'This user has been deleted.',
           'success'
         )
           }
@@ -77,7 +77,7 @@ fetch(`https://class-routine-management-server.vercel.app/users/admin/${users._i
   return (
     <div>
       <div className="text-primary text-3xl font-serif font-bold text-center mb-5">
-        <h1>Total Logged in : { users.length} person</h1>
+        <h1>Total user : { users.length} person</h1>
       </div>
       <div className="overflow-x-auto">
         <table className="table">

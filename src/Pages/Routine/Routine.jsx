@@ -25,6 +25,10 @@ const Routine = () => {
       <h1 className="text-4xl font-serif font-bold text-center ">
         Department of Computer Science & Engineering
       </h1>
+      <h1 className="text-4xl font-serif font-bold text-center pt-2">
+       8th Semester
+      </h1>
+      <button className='btn bg-black text-white font-serif mx-3'>Download pdf</button>
       </div>
 
       

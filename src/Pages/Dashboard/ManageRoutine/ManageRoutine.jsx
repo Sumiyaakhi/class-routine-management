@@ -9,7 +9,7 @@ const ManageRoutine = () => {
   const { user } = useContext(AuthContext);
   const [data, refetch, isLoading] = useClasses();
   console.log(data);
-  const [semester, setSemester] = useState("");
+  const [semester, setSemester] = useState("8th semester");
   const [selectedSemester, setSelectedSemester] = useState("");
   const [addClass, setAddClass] = useState([]);
   const [control, setControl] = useState(false)
@@ -29,7 +29,7 @@ const ManageRoutine = () => {
   const handleDelete =  id =>{
     Swal.fire({
       title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      text: "You won't be able to revert this row!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -46,7 +46,7 @@ const ManageRoutine = () => {
             setControl(!control); 
         Swal.fire(
           'Deleted!',
-          'Your file has been deleted.',
+          'This row has been deleted.',
           'success'
         )
           }
